@@ -1,0 +1,66 @@
+{
+  "author": "OctaEDLP00",
+  "bugs": {
+    "url": "https://github.com/OctaEDLP00/cli-builder-core/issues"
+  },
+  "dependencies": {
+    "commander": "14.0.0",
+    "ora": "8.2.0",
+    "picocolors": "1.1.1"
+  },
+  "description": "A powerful API for building modern CLI installers and generators",
+  "devDependencies": {
+    "@types/eslint": "9.6.1",
+    "@types/node": "22.15.33",
+    "@typescript-eslint/eslint-plugin": "8.35.0",
+    "@vitest/coverage-v8": "3.2.4",
+    "@vitest/ui": "3.2.4",
+    "eslint": "9.29.0",
+    "eslint-config-love": "121.0.0",
+    "eslint-config-prettier": "10.1.5",
+    "eslint-plugin-prettier": "5.5.1",
+    "globals": "16.2.0",
+    "prettier": "3.6.1",
+    "tsx": "4.20.3",
+    "typescript": "5.8.3",
+    "vitest": "3.2.4"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "homepage": "https://github.com/OctaEDLP00/cli-builder-core#readme",
+  "keywords": ["cli", "builder", "installer", "typescript", "readline"],
+  "main": "dist/index.js",
+  "name": "@cli-builder/core",
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OctaEDLP00/cli-builder-core.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx examples/basic-cli.ts",
+    "example:advanced": "tsx examples/advanced-cli.ts",
+    "example:basic": "tsx examples/basic-cli.ts",
+    "example:plugin": "tsx examples/plugin-example.ts",
+    "format": "prettier --write \"src/**/*.ts\" \"examples/**/*.ts\" \"*.{js,json,md}\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"examples/**/*.ts\" \"*.{js,json,md}\"",
+    "lint": "eslint src/**/*.ts examples/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts examples/**/*.ts --fix",
+    "prepublishOnly": "npm run build && npm run test:run && npm run lint",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:run": "vitest run",
+    "test:ui": "vitest --ui",
+    "type-check": "tsc --noEmit"
+  },
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "version": "0.0.1"
+}

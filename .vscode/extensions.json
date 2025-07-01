@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "pflannery.vscode-versionlens",
+    "usernamehw.errorlens",
+    "wix.vscode-import-cost",
+    "ms-vscode.vscode-typescript-next",
+    "visualstudioexptteam.vscodeintellicode",
+    "visualstudioexptteam.intellicode-api-usage-examples",
+    "christian-kohler.path-intellisense",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "yoavbls.pretty-ts-errors",
+    "aaron-bond.better-comments"
+  ]
+}

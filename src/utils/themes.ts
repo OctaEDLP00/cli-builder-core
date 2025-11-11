@@ -71,13 +71,15 @@ export const themes = {
 }
 
 function verifyHexValidity(hexstr: string): (3 | 6) | Error {
-  const length = hexstr.length
+  // Accept hex strings with or without a leading '#'
+  const normalized = hexstr.startsWith('#') ? hexstr.substring(1) : hexstr
+  const length = normalized.length
 
   if (length !== 3 && length !== 6) {
     return new Error(`The hexadecimal length is not valid. The length is of ${length}`)
   }
 
-  if (!/^[0-9A-Fa-f]+$/.test(hexstr)) {
+  if (!/^[0-9A-Fa-f]+$/.test(normalized)) {
     return new Error('The Hexadecimal contains invalid characters')
   }
 

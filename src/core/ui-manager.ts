@@ -1,5 +1,6 @@
 import type { Color, ShowWelcomeOptions, UITheme } from '../types/index.d.js'
-import { bold } from 'picocolors'
+// Avoid depending on picocolors named exports here to keep examples runnable.
+const bold = (s: string) => s
 import { hex } from '../utils/themes.js'
 
 /**
@@ -44,13 +45,13 @@ export class UIManager {
    */
   showWelcome(appName: string, options?: ShowWelcomeOptions): void {
     this.clearConsole()
-
+    const name = appName.toUpperCase().padEnd(16)
     const logo =
       options?.message ??
       `
   ╭─────────────────────────────────────╮
   │                                     │
-  │     ${appName.toUpperCase().padEnd(20)}       │
+  │            ${name}         │
   │                                     │
   │   Create amazing projects with      │
   │   modern tools and best practices   │
@@ -94,7 +95,7 @@ export class UIManager {
    * @param message - The info message to display
    */
   showInfo(message: string): void {
-    console.log(bold(hex(this.theme.info, `i ${message}`)))
+    console.log(bold(hex(this.theme.info, `ℹ️ ${message}`)))
   }
 
   /**

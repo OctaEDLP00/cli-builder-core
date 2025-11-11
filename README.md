@@ -1,6 +1,6 @@
 # CLI Builder API
 
-A powerful TypeScript library for building modern CLI installers and generators, similar to those used by popular frameworks like Next.js, Vite, and Astro.
+A powerful TypeScript library for building modern CLI installers and generators, similar to those used by popular frameworks like Next.js, Vite, or Astro.
 
 ## Features
 

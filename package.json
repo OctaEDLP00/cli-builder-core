@@ -4,25 +4,25 @@
     "url": "https://github.com/OctaEDLP00/cli-builder-core/issues"
   },
   "dependencies": {
-    "commander": "14.0.0",
-    "ora": "8.2.0",
+    "commander": "14.0.1",
+    "ora": "9.0.0",
     "picocolors": "1.1.1"
   },
   "description": "A powerful API for building modern CLI installers and generators",
   "devDependencies": {
     "@types/eslint": "9.6.1",
-    "@types/node": "22.15.33",
-    "@typescript-eslint/eslint-plugin": "8.35.0",
+    "@types/node": "24.6.2",
+    "@typescript-eslint/eslint-plugin": "8.45.0",
     "@vitest/coverage-v8": "3.2.4",
     "@vitest/ui": "3.2.4",
-    "eslint": "9.29.0",
-    "eslint-config-love": "121.0.0",
-    "eslint-config-prettier": "10.1.5",
-    "eslint-plugin-prettier": "5.5.1",
-    "globals": "16.2.0",
-    "prettier": "3.6.1",
-    "tsx": "4.20.3",
-    "typescript": "5.8.3",
+    "eslint": "9.36.0",
+    "eslint-config-love": "130.0.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-prettier": "5.5.4",
+    "globals": "16.4.0",
+    "prettier": "3.6.2",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3",
     "vitest": "3.2.4"
   },
   "exports": {

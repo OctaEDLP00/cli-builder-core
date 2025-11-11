@@ -105,19 +105,33 @@ export class PluginManager implements PluginAdapter {
   async executeHook(hookName: keyof PluginHooks, ...args: unknown[]): Promise<void> {
     const promises: Array<Promise<void>> = []
 
+    // No default payload; callers should provide context explicitly.
+
     for (const plugin of this.plugins.values()) {
       if (plugin.hooks && plugin.hooks[hookName]) {
         const hook = plugin.hooks?.[hookName]
         if (hook) {
           try {
             const result = (hook as (...args: Array<unknown>) => any)(...args)
+
             if (result instanceof Promise) {
-              promises.push(result)
+              // Attach handlers to catch rejections and forward to onError if provided
+              const p = result.catch(async (err) => {
+                console.warn(`Warning: Plugin '${plugin.name}' hook '${hookName}' failed:`, err)
+                if (plugin.hooks && plugin.hooks.onError) {
+                  try {
+                    return plugin.hooks.onError(err as Error, `hook:${hookName}`)
+                  } catch (onErr) {
+                    console.error(`Plugin '${plugin.name}' onError hook also failed:`, onErr)
+                  }
+                }
+              })
+              promises.push(p)
             }
           } catch (error) {
             console.warn(`Warning: Plugin '${plugin.name}' hook '${hookName}' failed:`, error)
 
-            if (plugin.hooks.onError) {
+            if (plugin.hooks && plugin.hooks.onError) {
               try {
                 const errorResult = plugin.hooks.onError(error as Error, `hook:${hookName}`)
                 if (errorResult instanceof Promise) {

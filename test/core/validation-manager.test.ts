@@ -11,7 +11,7 @@ describe('ValidationManager', () => {
   it('should create ValidationManager with custom validators', () => {
     const customValidators: Record<string, ValidationRule> = {
       testValidator: {
-        validate: (value: string) => value.length > 5,
+        validate: (value) => (value as string).length > 5,
         message: 'Must be longer than 5 characters'
       }
     }
@@ -56,7 +56,7 @@ describe('ValidationManager', () => {
   it('should retrieve custom validator', () => {
     const customValidators: Record<string, ValidationRule> = {
       testValidator: {
-        validate: (value: string) => value.length > 5,
+        validate: (value) => (value as string).length > 5,
         message: 'Must be longer than 5 characters'
       }
     }

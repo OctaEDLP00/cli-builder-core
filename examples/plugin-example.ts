@@ -91,11 +91,11 @@ export const CustomComponent: React.FC<CustomComponentProps> = ({ title }) => {
         }
       ],
       dependencies: {
-        production: {
+        dependencies: {
           'react': '^18.2.0',
           'react-dom': '^18.2.0'
         },
-        development: {
+        devDepencies: {
           '@vitejs/plugin-react': '^4.2.1',
           'vite': '^5.0.0',
           'typescript': '^5.0.0',
@@ -115,8 +115,9 @@ export const CustomComponent: React.FC<CustomComponentProps> = ({ title }) => {
   ],
   validators: {
     customProjectName: {
-      validate: (value: string) => {
-        if (value.includes('plugin')) {
+      validate: (value: unknown, answers?: Record<string, unknown>) => {
+        const val = typeof value === 'string' ? value : String(value ?? '');
+        if (val.includes('plugin')) {
           return 'Project name cannot contain "plugin" when using this custom plugin';
         }
         return true;
@@ -188,11 +189,11 @@ export default App`
     }
   ],
   dependencies: {
-    production: {
+    dependencies: {
       'react': '^18.2.0',
       'react-dom': '^18.2.0'
     },
-    development: {
+    devDepencies: {
       '@vitejs/plugin-react': '^4.2.1',
       'vite': '^5.0.0',
       'typescript': '^5.0.0'
@@ -202,7 +203,7 @@ export default App`
 
 // Create CLI with plugin
 const cli = createCLI({
-  name: 'plugin-example-cli',
+  name: 'plugin-example',
   version: '1.0.0',
   description: 'CLI with custom plugin example',
   prompts,

@@ -1,4 +1,7 @@
-import { white, gray } from 'picocolors'
+// Use local no-op color helpers to keep examples runnable when picocolors named
+// exports are not available in the runtime environment.
+const white = (s: string) => s
+const gray = (s: string) => s
 import { Command } from 'commander'
 import type {
   CLIConfig,
@@ -50,6 +53,36 @@ export class CLIBuilder {
     this.program = new Command()
 
     this.setupCommands()
+  }
+
+  /**
+   * Wrapper around commander.js parse to make testing safer.
+   * Enables exitOverride so commander will throw instead of calling process.exit.
+   *
+   * @param argv - Optional argv array to parse (defaults to process.argv)
+   */
+  parse(argv?: string[]): void {
+    // Prevent commander from calling process.exit() so tests can assert behavior
+    try {
+      this.program.exitOverride()
+    } catch (e) {
+      // exitOverride may have already been set; ignore
+    }
+
+    // Use synchronous parse so thrown Commander errors are synchronous and can be
+    // caught by tests. exitOverride() prevents process.exit.
+    try {
+      this.program.parse(argv || process.argv)
+    } catch (err: any) {
+      // Commander throws a CommanderError when help is displayed. Tests expect
+      // help exit to be treated as non-fatal (exit code 0). If the error
+      // indicates help was displayed (exitCode 0), swallow it; otherwise rethrow.
+      const exitCode = err && (err.exitCode ?? err.code)
+      if (exitCode === 0 || err && err.code === 'commander.helpDisplayed') {
+        return
+      }
+      throw err
+    }
   }
 
   /**
@@ -409,12 +442,5 @@ export class CLIBuilder {
     console.log(gray('\nHappy coding! 🚀\n'))
   }
 
-  /**
-   * Parses command line arguments and executes the CLI.
-   *
-   * @param argv - Optional command line arguments array
-   */
-  parse(argv?: string[]): void {
-    this.program.parse(argv)
-  }
+  // ... parse method is implemented earlier (uses exitOverride for safer test behavior)
 }

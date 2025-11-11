@@ -55,18 +55,17 @@ export abstract class CLIError extends Error {
    * @returns JSON representation of the error
    */
   toJSON(): Json {
-    const { name, message, code, context, timestamp, stack } = this
-    return Object.assign(
-      {},
-      {
-        name,
-        message,
-        code,
-        context,
-        timestamp,
-        stack,
-      },
-    )
+    return Object.assign({}, this)
+  }
+}
+
+export class CommanderError extends Error {
+  exitCode: number
+  code?: string
+  constructor(message: string, exitCode = 1, code?: string) {
+    super(message)
+    this.exitCode = exitCode
+    this.code = code
   }
 }
 

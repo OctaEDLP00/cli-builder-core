@@ -12,6 +12,7 @@ import {
   ProcessError,
   ErrorFactory
 } from '../../src/errors/index.js'
+import { CLIErrorContext } from '~/index.js'
 
 describe('Error System', () => {
   describe('ValidationError', () => {
@@ -27,7 +28,10 @@ describe('Error System', () => {
     })
 
     it('should create ValidationError with context', () => {
-      const context = { field: 'projectName', value: 'invalid' }
+      const context = {
+        projectName: 'invalid'
+      } as CLIErrorContext
+
       const error = new ValidationError('Invalid project name', context)
 
       expect(error.context).toEqual(context)

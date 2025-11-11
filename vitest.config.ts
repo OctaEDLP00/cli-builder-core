@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    include: ['test/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     exclude: ['node_modules', 'dist', '.idea', '.git', '.cache'],
     coverage: {
       provider: 'v8',
@@ -24,6 +24,6 @@ export default defineConfig({
         '**/.{eslint,mocha,prettier}rc.{js,cjs,yml}'
       ]
     },
-    setupFiles: ['./tests/setup.ts']
+    setupFiles: ['./test/setup.ts']
   }
 });

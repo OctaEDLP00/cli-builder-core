@@ -97,7 +97,7 @@ describe('PluginManager', () => {
     }
 
     await pluginManager.install(pluginWithHook)
-    await pluginManager.executeHook('beforeGenerate')
+    await pluginManager.executeHook('beforeGenerate', { test: 'data' })
 
     expect(mockHook).toHaveBeenCalledWith({ test: 'data' })
   })

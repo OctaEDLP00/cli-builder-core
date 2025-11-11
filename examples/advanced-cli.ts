@@ -74,7 +74,7 @@ const fullStackTemplate = defineTemplate({
 Created by ${answers.author}
 
 ## Features
-${answers.features.map((f: string) => `- ${f}`).join('\n')}
+${((answers as any).features || []).map((f: string) => `- ${f}`).join('\n')}
 
 ## Getting Started
 
@@ -98,7 +98,7 @@ ${answers.license}
         scripts: {
           dev: 'echo "Development server starting..."',
           build: 'echo "Building project..."',
-          test: answers.features.includes('testing') ? 'jest' : 'echo "No tests configured"'
+          test: ((answers as any).features || []).includes('testing') ? 'jest' : 'echo "No tests configured"'
         }
       }, null, 2)
     },
@@ -112,7 +112,7 @@ dist/
     },
     {
       path: 'docker-compose.yml',
-      condition: (answers) => answers.features.includes('docker'),
+      condition: (answers) => ((answers as any).features || []).includes('docker'),
       content: (answers) => `version: '3.8'
 services:
   app:
@@ -127,7 +127,7 @@ services:
     },
     {
       path: 'Dockerfile',
-      condition: (answers) => answers.features.includes('docker'),
+      condition: (answers) => ((answers as any).features || []).includes('docker'),
       content: `FROM node:18-alpine
 WORKDIR /app
 COPY package*.json ./
@@ -143,7 +143,7 @@ CMD ["npm", "run", "dev"]`
     if (answers.framework) {
       console.log(`⚡ Framework: ${answers.framework}`);
     }
-    console.log(`🔧 Features: ${answers.features.join(', ')}`);
+    console.log(`🔧 Features: ${((answers as any).features || []).join(', ')}`);
   }
 });
 
@@ -156,8 +156,9 @@ const cli = createCLI({
   allowModeSelection: true,
   customValidators: {
     customProjectName: {
-      validate: (value: string) => {
-        if (value.includes('test')) {
+      validate: (value: unknown, answers?: Record<string, unknown>) => {
+        const v = typeof value === 'string' ? value : String(value ?? '');
+        if (v.includes('test')) {
           return 'Project name cannot contain "test"';
         }
         return true;

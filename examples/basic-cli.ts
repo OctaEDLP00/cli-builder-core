@@ -138,11 +138,11 @@ export default defineConfig({
     }
   ],
   dependencies: {
-    production: {
+    dependencies: {
       'react': '^18.2.0',
       'react-dom': '^18.2.0'
     },
-    development: {
+    devDepencies: {
       '@types/react': '^18.2.0',
       '@types/react-dom': '^18.2.0',
       '@vitejs/plugin-react': '^4.2.1',
@@ -204,11 +204,11 @@ app.listen(PORT, () => {
     }
   ],
   dependencies: {
-    production: {
+    dependencies: {
       'express': '^4.18.0',
       'cors': '^2.8.5'
     },
-    development: {
+    devDepencies: {
       '@types/express': '^4.17.0',
       '@types/cors': '^2.8.0',
       '@types/node': '^20.0.0',

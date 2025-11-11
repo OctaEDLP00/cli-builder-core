@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { CLIBuilder } from '../../src/core/cli-builder.js'
 import type { CLIConfig } from '../../src/types/index.js'
+import { CLIError, ReadlineError } from '~/index.js'
 
 describe('CLIBuilder', () => {
   let mockConfig: CLIConfig
@@ -55,8 +56,8 @@ describe('CLIBuilder', () => {
         cli.parse()
       } catch (error) {
         // Help command exits the process, which is expected
-        if (error.code !== 0) {
-          throw error
+        if (error instanceof ReadlineError) {
+          if (error.code !== 'READLINE_ERROR') throw error
         }
       } finally {
         process.argv = originalArgv

@@ -5,13 +5,17 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  if (console.log.mockRestore) {
-    console.log.mockRestore()
+  const logSpy: any = console.log
+  const errSpy: any = console.error
+  const warnSpy: any = console.warn
+
+  if (logSpy && typeof logSpy.mockRestore === 'function') {
+    logSpy.mockRestore()
   }
-  if (console.error.mockRestore) {
-    console.error.mockRestore()
+  if (errSpy && typeof errSpy.mockRestore === 'function') {
+    errSpy.mockRestore()
   }
-  if (console.warn.mockRestore) {
-    console.warn.mockRestore()
+  if (warnSpy && typeof warnSpy.mockRestore === 'function') {
+    warnSpy.mockRestore()
   }
 });

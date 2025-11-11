@@ -1,4 +1,5 @@
-import { red, green, yellow } from 'picocolors'
+// Avoid importing specific colors from picocolors in this module to keep
+// examples runnable in different environments. Use plain messages instead.
 import { ensureDir, writeFile, writeJson } from '../utils/fs.js'
 import { exec } from 'node:child_process'
 import { dirname, join } from 'node:path'
@@ -166,9 +167,9 @@ export class ProjectGenerator {
 
     try {
       await execAsync('npm install', { cwd: projectPath })
-      spinner.succeed(green('Dependencies installed successfully'))
+      spinner.succeed('Dependencies installed successfully')
     } catch (error) {
-      spinner.fail(red('Failed to install dependencies'))
+      spinner.fail('Failed to install dependencies')
 
       if (error instanceof Error) {
         throw ErrorFactory.dependency(`Failed to install dependencies: ${error.message}`, {
@@ -177,7 +178,7 @@ export class ProjectGenerator {
         })
       }
 
-      console.log(yellow('You can install them manually later with: npm install'))
+      console.log('You can install them manually later with: npm install')
     }
   }
 }

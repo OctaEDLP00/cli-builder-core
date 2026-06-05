@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { createCLI, defineTemplate, definePrompt, validators } from '../src/index.js';
+import { createCLI, defineTemplate, definePrompt, validators } from '../src/index.js'
 
 // Advanced example with conditional prompts and custom validators
 const advancedPrompts = [
@@ -8,7 +8,7 @@ const advancedPrompts = [
     name: 'projectName',
     type: 'input',
     message: '📁 What is your project name?',
-    validate: validators.projectName
+    validate: validators.projectName,
   }),
   definePrompt({
     name: 'projectType',
@@ -17,19 +17,19 @@ const advancedPrompts = [
     choices: [
       { name: 'Web Application', value: 'web' },
       { name: 'API Server', value: 'api' },
-      { name: 'Full Stack', value: 'fullstack' }
-    ]
+      { name: 'Full Stack', value: 'fullstack' },
+    ],
   }),
   definePrompt({
     name: 'framework',
     type: 'select',
     message: '⚡ Choose your frontend framework',
-    when: (answers) => answers.projectType === 'web' || answers.projectType === 'fullstack',
+    when: answers => answers.projectType === 'web' || answers.projectType === 'fullstack',
     choices: [
       { name: 'React', value: 'react' },
       { name: 'Vue', value: 'vue' },
-      { name: 'Svelte', value: 'svelte' }
-    ]
+      { name: 'Svelte', value: 'svelte' },
+    ],
   }),
   definePrompt({
     name: 'features',
@@ -40,14 +40,14 @@ const advancedPrompts = [
       { name: 'ESLint', value: 'eslint' },
       { name: 'Prettier', value: 'prettier' },
       { name: 'Testing (Jest)', value: 'testing' },
-      { name: 'Docker', value: 'docker' }
-    ]
+      { name: 'Docker', value: 'docker' },
+    ],
   }),
   definePrompt({
     name: 'author',
     type: 'input',
     message: '👤 Author name',
-    default: 'Anonymous'
+    default: 'Anonymous',
   }),
   definePrompt({
     name: 'license',
@@ -57,11 +57,11 @@ const advancedPrompts = [
       { name: 'MIT', value: 'MIT' },
       { name: 'Apache 2.0', value: 'Apache-2.0' },
       { name: 'GPL v3', value: 'GPL-3.0' },
-      { name: 'None', value: 'UNLICENSED' }
+      { name: 'None', value: 'UNLICENSED' },
     ],
-    default: 'MIT'
-  })
-];
+    default: 'MIT',
+  }),
+]
 
 const fullStackTemplate = defineTemplate({
   name: 'fullstack',
@@ -69,7 +69,7 @@ const fullStackTemplate = defineTemplate({
   files: [
     {
       path: 'README.md',
-      content: (answers) => `# ${answers.projectName}
+      content: answers => `# ${answers.projectName}
 
 Created by ${answers.author}
 
@@ -85,22 +85,29 @@ npm run dev
 
 ## License
 ${answers.license}
-`
+`,
     },
     {
       path: 'package.json',
-      content: (answers) => JSON.stringify({
-        name: answers.projectName,
-        version: '1.0.0',
-        description: `${answers.projectName} - A full stack application`,
-        author: answers.author,
-        license: answers.license,
-        scripts: {
-          dev: 'echo "Development server starting..."',
-          build: 'echo "Building project..."',
-          test: ((answers as any).features || []).includes('testing') ? 'jest' : 'echo "No tests configured"'
-        }
-      }, null, 2)
+      content: answers =>
+        JSON.stringify(
+          {
+            name: answers.projectName,
+            version: '1.0.0',
+            description: `${answers.projectName} - A full stack application`,
+            author: answers.author,
+            license: answers.license,
+            scripts: {
+              dev: 'echo "Development server starting..."',
+              build: 'echo "Building project..."',
+              test: ((answers as any).features || []).includes('testing')
+                ? 'jest'
+                : 'echo "No tests configured"',
+            },
+          },
+          null,
+          2,
+        ),
     },
     {
       path: '.gitignore',
@@ -108,12 +115,12 @@ ${answers.license}
 dist/
 .env
 .env.local
-*.log`
+*.log`,
     },
     {
       path: 'docker-compose.yml',
-      condition: (answers) => ((answers as any).features || []).includes('docker'),
-      content: (answers) => `version: '3.8'
+      condition: answers => ((answers as any).features || []).includes('docker'),
+      content: answers => `version: '3.8'
 services:
   app:
     build: .
@@ -123,29 +130,29 @@ services:
       - NODE_ENV=development
     volumes:
       - .:/app
-      - /app/node_modules`
+      - /app/node_modules`,
     },
     {
       path: 'Dockerfile',
-      condition: (answers) => ((answers as any).features || []).includes('docker'),
+      condition: answers => ((answers as any).features || []).includes('docker'),
       content: `FROM node:18-alpine
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
 EXPOSE 3000
-CMD ["npm", "run", "dev"]`
-    }
+CMD ["npm", "run", "dev"]`,
+    },
   ],
   postInstall: async (projectPath, answers) => {
-    console.log(`\n🎉 ${answers.projectName} has been created!`);
-    console.log(`📁 Project type: ${answers.projectType}`);
+    console.log(`\n🎉 ${answers.projectName} has been created!`)
+    console.log(`📁 Project type: ${answers.projectType}`)
     if (answers.framework) {
-      console.log(`⚡ Framework: ${answers.framework}`);
+      console.log(`⚡ Framework: ${answers.framework}`)
     }
-    console.log(`🔧 Features: ${((answers as any).features || []).join(', ')}`);
-  }
-});
+    console.log(`🔧 Features: ${((answers as any).features || []).join(', ')}`)
+  },
+})
 
 const cli = createCLI({
   name: 'advanced-cli',
@@ -157,14 +164,14 @@ const cli = createCLI({
   customValidators: {
     customProjectName: {
       validate: (value: unknown, answers?: Record<string, unknown>) => {
-        const v = typeof value === 'string' ? value : String(value ?? '');
+        const v = typeof value === 'string' ? value : String(value ?? '')
         if (v.includes('test')) {
-          return 'Project name cannot contain "test"';
+          return 'Project name cannot contain "test"'
         }
-        return true;
-      }
-    }
-  }
-});
+        return true
+      },
+    },
+  },
+})
 
-cli.parse();
+cli.parse()

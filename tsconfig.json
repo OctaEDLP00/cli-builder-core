@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
-      "~/*": [ "src/*" ]
+      "~/*": ["./src/*"],
     },
     "target": "ES2022",
     "module": "ESNext",
@@ -13,13 +12,11 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
+    "useDefineForClassFields": true,
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "ignoreDeprecations": "6.0"
   },
-  "include": [ "src/**/*", "test/**/*" ],
-  "exclude": [ "node_modules", "dist" ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"],
 }

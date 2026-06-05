@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { createCLI, defineTemplate, definePrompt, validators, themes } from '../src/index.js';
+import { createCLI, defineTemplate, definePrompt, validators, themes } from '../src/index.js'
 
 // Define templates
 const reactTemplate = defineTemplate({
@@ -9,7 +9,7 @@ const reactTemplate = defineTemplate({
   files: [
     {
       path: 'index.html',
-      content: (answers) => `<!doctype html>
+      content: answers => `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -20,11 +20,11 @@ const reactTemplate = defineTemplate({
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
-</html>`
+</html>`,
     },
     {
       path: 'src/main.tsx',
-      content: (answers) => `import React from 'react'
+      content: answers => `import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
@@ -33,11 +33,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-)`
+)`,
     },
     {
       path: 'src/App.tsx',
-      content: (answers) => `import { useState } from 'react'
+      content: answers => `import { useState } from 'react'
 import './App.css'
 
 function App() {
@@ -55,7 +55,7 @@ function App() {
   )
 }
 
-export default App`
+export default App`,
     },
     {
       path: 'src/App.css',
@@ -83,7 +83,7 @@ button {
 
 button:hover {
   border-color: #646cff;
-}`
+}`,
     },
     {
       path: 'src/index.css',
@@ -101,7 +101,7 @@ button:hover {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}`
+}`,
     },
     {
       path: 'vite.config.ts',
@@ -110,52 +110,56 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-})`
+})`,
     },
     {
       path: 'tsconfig.json',
-      content: JSON.stringify({
-        compilerOptions: {
-          target: 'ES2020',
-          useDefineForClassFields: true,
-          lib: ['ES2020', 'DOM', 'DOM.Iterable'],
-          module: 'ESNext',
-          skipLibCheck: true,
-          moduleResolution: 'bundler',
-          allowImportingTsExtensions: true,
-          resolveJsonModule: true,
-          isolatedModules: true,
-          noEmit: true,
-          jsx: 'react-jsx',
-          strict: true,
-          noUnusedLocals: true,
-          noUnusedParameters: true,
-          noFallthroughCasesInSwitch: true
+      content: JSON.stringify(
+        {
+          compilerOptions: {
+            target: 'ES2020',
+            useDefineForClassFields: true,
+            lib: ['ES2020', 'DOM', 'DOM.Iterable'],
+            module: 'ESNext',
+            skipLibCheck: true,
+            moduleResolution: 'bundler',
+            allowImportingTsExtensions: true,
+            resolveJsonModule: true,
+            isolatedModules: true,
+            noEmit: true,
+            jsx: 'react-jsx',
+            strict: true,
+            noUnusedLocals: true,
+            noUnusedParameters: true,
+            noFallthroughCasesInSwitch: true,
+          },
+          include: ['src'],
+          references: [{ path: './tsconfig.node.json' }],
         },
-        include: ['src'],
-        references: [{ path: './tsconfig.node.json' }]
-      }, null, 2)
-    }
+        null,
+        2,
+      ),
+    },
   ],
   dependencies: {
     dependencies: {
-      'react': '^18.2.0',
-      'react-dom': '^18.2.0'
+      react: '^18.2.0',
+      'react-dom': '^18.2.0',
     },
     devDepencies: {
       '@types/react': '^18.2.0',
       '@types/react-dom': '^18.2.0',
       '@vitejs/plugin-react': '^4.2.1',
-      'typescript': '^5.0.0',
-      'vite': '^5.0.0'
-    }
+      typescript: '^5.0.0',
+      vite: '^5.0.0',
+    },
   },
   scripts: {
-    'dev': 'vite',
-    'build': 'vite build',
-    'preview': 'vite preview'
-  }
-});
+    dev: 'vite',
+    build: 'vite build',
+    preview: 'vite preview',
+  },
+})
 
 const expressTemplate = defineTemplate({
   name: 'express',
@@ -163,7 +167,7 @@ const expressTemplate = defineTemplate({
   files: [
     {
       path: 'src/index.ts',
-      content: (answers) => `import express from 'express';
+      content: answers => `import express from 'express';
 import cors from 'cors';
 
 const app = express();
@@ -182,46 +186,50 @@ app.get('/api/health', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(\`🚀 Server running on http://localhost:\${PORT}\`);
-});`
+});`,
     },
     {
       path: 'tsconfig.json',
-      content: JSON.stringify({
-        compilerOptions: {
-          target: 'ES2022',
-          module: 'ESNext',
-          moduleResolution: 'Node',
-          outDir: './dist',
-          rootDir: './src',
-          strict: true,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true
+      content: JSON.stringify(
+        {
+          compilerOptions: {
+            target: 'ES2022',
+            module: 'ESNext',
+            moduleResolution: 'Node',
+            outDir: './dist',
+            rootDir: './src',
+            strict: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+          },
+          include: ['src/**/*'],
+          exclude: ['node_modules', 'dist'],
         },
-        include: ['src/**/*'],
-        exclude: ['node_modules', 'dist']
-      }, null, 2)
-    }
+        null,
+        2,
+      ),
+    },
   ],
   dependencies: {
     dependencies: {
-      'express': '^4.18.0',
-      'cors': '^2.8.5'
+      express: '^4.18.0',
+      cors: '^2.8.5',
     },
     devDepencies: {
       '@types/express': '^4.17.0',
       '@types/cors': '^2.8.0',
       '@types/node': '^20.0.0',
-      'typescript': '^5.0.0',
-      'tsx': '^4.0.0'
-    }
+      typescript: '^5.0.0',
+      tsx: '^4.0.0',
+    },
   },
   scripts: {
-    'dev': 'tsx src/index.ts',
-    'build': 'tsc',
-    'start': 'node dist/index.js'
-  }
-});
+    dev: 'tsx src/index.ts',
+    build: 'tsc',
+    start: 'node dist/index.js',
+  },
+})
 
 // Define prompts
 const prompts = [
@@ -229,7 +237,7 @@ const prompts = [
     name: 'projectName',
     type: 'input',
     message: '📁 Project name',
-    validate: validators.projectName
+    validate: validators.projectName,
   }),
   definePrompt({
     name: 'template',
@@ -237,16 +245,16 @@ const prompts = [
     message: '🎨 Choose a template',
     choices: [
       { name: 'React + Vite + TypeScript', value: 'react', description: 'Modern React setup' },
-      { name: 'Express.js API', value: 'express', description: 'REST API with TypeScript' }
-    ]
+      { name: 'Express.js API', value: 'express', description: 'REST API with TypeScript' },
+    ],
   }),
   definePrompt({
     name: 'installDeps',
     type: 'confirm',
     message: '📦 Install dependencies?',
-    default: true
-  })
-];
+    default: true,
+  }),
+]
 
 // Create CLI
 const cli = createCLI({
@@ -257,8 +265,8 @@ const cli = createCLI({
   templates: [reactTemplate, expressTemplate],
   theme: themes.vibrant,
   allowModeSelection: true,
-  readlineMode: 'async'
-});
+  readlineMode: 'async',
+})
 
 // Run CLI
-cli.parse();
+cli.parse()

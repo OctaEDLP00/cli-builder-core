@@ -6,8 +6,8 @@ import {
   definePrompt,
   defineTemplate,
   validators,
-  type UITheme
-} from '../src/index';
+  type UITheme,
+} from '../src/index'
 
 // Example of creating a custom plugin
 const customTheme = {
@@ -17,29 +17,29 @@ const customTheme = {
   error: '#f9ca24',
   warning: '#f0932b',
   info: '#eb4d4b',
-  muted: '#6c5ce7'
-} satisfies UITheme;
+  muted: '#6c5ce7',
+} satisfies UITheme
 
 const myCustomPlugin = definePlugin({
   name: 'my-custom-plugin',
   version: '1.0.0',
   description: 'A custom plugin example',
   hooks: {
-    beforeGenerate: async (config) => {
-      console.log(`🔌 Plugin: Starting generation for ${config.projectName}`);
+    beforeGenerate: async config => {
+      console.log(`🔌 Plugin: Starting generation for ${config.projectName}`)
     },
     afterGenerate: async (config, projectPath) => {
-      console.log(`🔌 Plugin: Finished generating ${config.projectName} at ${projectPath}`);
+      console.log(`🔌 Plugin: Finished generating ${config.projectName} at ${projectPath}`)
     },
-    beforeInstall: async (projectPath) => {
-      console.log(`🔌 Plugin: About to install dependencies in ${projectPath}`);
+    beforeInstall: async projectPath => {
+      console.log(`🔌 Plugin: About to install dependencies in ${projectPath}`)
     },
-    afterInstall: async (projectPath) => {
-      console.log(`🔌 Plugin: Dependencies installed in ${projectPath}`);
+    afterInstall: async projectPath => {
+      console.log(`🔌 Plugin: Dependencies installed in ${projectPath}`)
     },
     onError: async (error, context) => {
-      console.error(`🔌 Plugin: Error in ${context}:`, error.message);
-    }
+      console.error(`🔌 Plugin: Error in ${context}:`, error.message)
+    },
   },
   templates: [
     defineTemplate({
@@ -48,7 +48,7 @@ const myCustomPlugin = definePlugin({
       files: [
         {
           path: 'README.md',
-          content: (answers) => `# ${answers.projectName}
+          content: answers => `# ${answers.projectName}
 
 This is a custom React project created with my plugin!
 
@@ -63,11 +63,11 @@ This is a custom React project created with my plugin!
 npm install
 npm run dev
 \`\`\`
-`
+`,
         },
         {
           path: 'src/custom-component.tsx',
-          content: (answers) => `import React from 'react';
+          content: answers => `import React from 'react';
 
 interface CustomComponentProps {
   title: string;
@@ -87,48 +87,48 @@ export const CustomComponent: React.FC<CustomComponentProps> = ({ title }) => {
     </div>
   );
 };
-`
-        }
+`,
+        },
       ],
       dependencies: {
         dependencies: {
-          'react': '^18.2.0',
-          'react-dom': '^18.2.0'
+          react: '^18.2.0',
+          'react-dom': '^18.2.0',
         },
         devDepencies: {
           '@vitejs/plugin-react': '^4.2.1',
-          'vite': '^5.0.0',
-          'typescript': '^5.0.0',
+          vite: '^5.0.0',
+          typescript: '^5.0.0',
           '@types/react': '^18.2.0',
-          '@types/react-dom': '^18.2.0'
-        }
+          '@types/react-dom': '^18.2.0',
+        },
       },
       scripts: {
-        'dev': 'vite',
-        'build': 'vite build',
-        'preview': 'vite preview'
+        dev: 'vite',
+        build: 'vite build',
+        preview: 'vite preview',
       },
       postInstall: async (projectPath, answers) => {
-        console.log(`🎉 Custom plugin setup complete for ${answers.projectName}!`);
-      }
-    })
+        console.log(`🎉 Custom plugin setup complete for ${answers.projectName}!`)
+      },
+    }),
   ],
   validators: {
     customProjectName: {
       validate: (value: unknown, answers?: Record<string, unknown>) => {
-        const val = typeof value === 'string' ? value : String(value ?? '');
+        const val = typeof value === 'string' ? value : String(value ?? '')
         if (val.includes('plugin')) {
-          return 'Project name cannot contain "plugin" when using this custom plugin';
+          return 'Project name cannot contain "plugin" when using this custom plugin'
         }
-        return true;
+        return true
       },
-      message: 'Custom validation failed'
-    }
+      message: 'Custom validation failed',
+    },
   },
   themes: {
-    custom: customTheme
-  }
-});
+    custom: customTheme,
+  },
+})
 
 // Define prompts
 const prompts = [
@@ -136,30 +136,34 @@ const prompts = [
     name: 'projectName',
     type: 'input',
     message: '📁 Project name',
-    validate: validators.projectName
+    validate: validators.projectName,
   }),
   definePrompt({
     name: 'template',
     type: 'select',
     message: '🎨 Choose a template',
     choices: [
-      { name: 'Custom React (Plugin)', value: 'custom-react', description: 'React with custom plugin features' },
-      { name: 'Standard React', value: 'react', description: 'Standard React setup' }
-    ]
+      {
+        name: 'Custom React (Plugin)',
+        value: 'custom-react',
+        description: 'React with custom plugin features',
+      },
+      { name: 'Standard React', value: 'react', description: 'Standard React setup' },
+    ],
   }),
   definePrompt({
     name: 'useCustomTheme',
     type: 'confirm',
     message: '🎨 Use custom theme?',
-    default: true
+    default: true,
   }),
   definePrompt({
     name: 'installDeps',
     type: 'confirm',
     message: '📦 Install dependencies?',
-    default: true
-  })
-];
+    default: true,
+  }),
+]
 
 // Standard React template
 const reactTemplate = defineTemplate({
@@ -168,7 +172,7 @@ const reactTemplate = defineTemplate({
   files: [
     {
       path: 'src/App.tsx',
-      content: (answers) => `import { useState } from 'react'
+      content: answers => `import { useState } from 'react'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -185,21 +189,21 @@ function App() {
   )
 }
 
-export default App`
-    }
+export default App`,
+    },
   ],
   dependencies: {
     dependencies: {
-      'react': '^18.2.0',
-      'react-dom': '^18.2.0'
+      react: '^18.2.0',
+      'react-dom': '^18.2.0',
     },
     devDepencies: {
       '@vitejs/plugin-react': '^4.2.1',
-      'vite': '^5.0.0',
-      'typescript': '^5.0.0'
-    }
-  }
-});
+      vite: '^5.0.0',
+      typescript: '^5.0.0',
+    },
+  },
+})
 
 // Create CLI with plugin
 const cli = createCLI({
@@ -210,7 +214,7 @@ const cli = createCLI({
   templates: [reactTemplate],
   plugins: [myCustomPlugin],
   theme: customTheme,
-  allowModeSelection: true
-});
+  allowModeSelection: true,
+})
 
-cli.parse();
+cli.parse()

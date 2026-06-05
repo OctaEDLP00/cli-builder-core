@@ -55,6 +55,7 @@ This project adheres to a code of conduct that we expect all contributors to fol
 ## Project Structure
 
 ```
+.vscode/
 src/
 ├── core/                # Core CLI functionality
 │   ├── cli-builder.ts   # Main CLI builder class
@@ -70,11 +71,27 @@ src/
 │   └── index.d.ts
 ├── utils/               # Utility functions
 │   ├── factory.ts
-│   ├── validators.ts
+│   ├── fs.ts
+│   ├── helpers.ts
+│   ├── readline-async.ts
+│   ├── readline-sync.ts
 │   ├── themes.ts
-│   └── helpers.ts
+│   ├── ui.ts
+│   └── validators.ts
 └── index.ts            # Main exports
-
+test/                   # Tests
+├── core/
+│   ├── cli-builder.test.ts
+│   ├── ui-manager.test.ts
+│   └── validation-manager.test.ts
+├── errors/
+│   └── index.test.ts
+├── plugins/
+│   ├── executeHook.test.ts
+│   └── plugin-manager.test.ts
+├── utils/
+│   └── themes.test.ts
+└── setup.ts
 examples/               # Example implementations
 ├── basic-cli.ts
 ├── advanced-cli.ts

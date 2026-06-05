@@ -1,5 +1,12 @@
 export type ReadlineMode = 'async' | 'sync'
+export type Color = `#${string}`
 export type PromptType = 'input' | 'select' | 'confirm' | 'multiselect'
+export type Validation = (value: unknown, answers?: Record<string, unknown>) => boolean | string
+export type ActionFn = (...args: any[]) => any
+export type Version =
+  | `${number}.${number}.${number}`
+  | `^${number}.${number}.${number}`
+  | `~${number}.${number}.${number}`
 
 export interface ShowWelcomeOptions {
   message: string
@@ -21,11 +28,6 @@ export interface Files {
   content: string | ((answers: Record<string, unknown>) => string)
   condition?: (answers: Record<string, unknown>) => boolean
 }
-
-export type Version =
-  | `${number}.${number}.${number}`
-  | `^${number}.${number}.${number}`
-  | `~${number}.${number}.${number}`
 
 export interface Dependencies {
   dependencies?: Record<string, Version>
@@ -57,11 +59,9 @@ export interface CLIConfig {
 }
 
 export interface ValidationRule {
-  validate: (value: unknown, answers?: Record<string, unknown>) => boolean | string
+  validate: Validation
   message?: string
 }
-
-type Color = `#${string}`
 
 export interface UITheme {
   primary: Color
@@ -122,11 +122,18 @@ export interface CLIErrorContext {
   additionalInfo?: Record<string, any>
 }
 
-interface Json {
+export interface Json {
   name: string
   message: string
   code: string
   context: CLIErrorContext
   timestamp: Date
   stack?: string
+}
+
+// Command Types
+export type Opts = {
+  flags: string
+  description?: string
+  arg?: string
 }

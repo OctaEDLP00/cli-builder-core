@@ -10,9 +10,9 @@ import {
   ConfigurationError,
   NetworkError,
   ProcessError,
-  ErrorFactory
+  ErrorFactory,
 } from '../../src/errors/index.js'
-import { CLIErrorContext } from '~/index.js'
+import { CLIErrorContext } from '../../src/index.js'
 
 describe('Error System', () => {
   describe('ValidationError', () => {
@@ -29,7 +29,7 @@ describe('Error System', () => {
 
     it('should create ValidationError with context', () => {
       const context = {
-        projectName: 'invalid'
+        projectName: 'invalid',
       } as CLIErrorContext
 
       const error = new ValidationError('Invalid project name', context)
@@ -117,7 +117,7 @@ describe('Error System', () => {
     it('should serialize error to JSON', () => {
       const context = { operation: 'test', projectName: 'my-app' }
       const error = new ValidationError('Test error', context)
-      const json = error.toJSON();
+      const json = error.toJSON()
 
       expect(json.name).toBe('ValidationError')
       expect(json.message).toBe('Test error')

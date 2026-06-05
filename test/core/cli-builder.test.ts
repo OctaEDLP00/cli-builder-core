@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { CLIBuilder } from '../../src/core/cli-builder.js'
 import type { CLIConfig } from '../../src/types/index.js'
-import { CLIError, ReadlineError } from '~/index.js'
+import { CLIError, ReadlineError } from '../../src/errors/index.js'
 
 describe('CLIBuilder', () => {
   let mockConfig: CLIConfig
@@ -15,8 +15,8 @@ describe('CLIBuilder', () => {
         {
           name: 'projectName',
           type: 'input',
-          message: 'Project name'
-        }
+          message: 'Project name',
+        },
       ],
       templates: [
         {
@@ -25,25 +25,25 @@ describe('CLIBuilder', () => {
           files: [
             {
               path: 'test.txt',
-              content: 'Hello World'
-            }
-          ]
-        }
-      ]
+              content: 'Hello World',
+            },
+          ],
+        },
+      ],
     }
   })
 
   it('should create a CLIBuilder instance', () => {
     const cli = new CLIBuilder(mockConfig)
     expect(cli).toBeInstanceOf(CLIBuilder)
-  });
+  })
 
   it('should have correct configuration', () => {
     const cli = new CLIBuilder(mockConfig)
     expect(cli).toBeDefined()
     // Test that the CLI was created with the correct config
     // Note: We can't directly access private properties, so we test behavior
-  });
+  })
 
   it('should handle parse method without throwing', () => {
     const cli = new CLIBuilder(mockConfig)

@@ -15,9 +15,8 @@ export class AsyncReadlineInterface {
   }
 
   /**
-   *
    * @param query
-   * @returns
+   * @returns A string promise that is a question
    */
   async question(query: string): Promise<string> {
     return await this.rl.question(query)

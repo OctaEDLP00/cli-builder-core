@@ -55,7 +55,12 @@ export abstract class CLIError extends Error {
    * @returns JSON representation of the error
    */
   toJSON(): Json {
-    return Object.assign({}, this)
+    return {
+      ...this, // Copia las propiedades enumerables (code, context, timestamp)
+      name: this.name,
+      message: this.message,
+      stack: this.stack, // Opcional: incluirlo si quieres depurar, quitarlo para logs limpios
+    }
   }
 }
 

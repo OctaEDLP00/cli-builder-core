@@ -10,6 +10,7 @@
   },
   "description": "A powerful API for building modern CLI installers and generators",
   "devDependencies": {
+    "tsup": "8.5.1",
     "@types/eslint": "9.6.1",
     "@types/node": "24.6.2",
     "@typescript-eslint/eslint-plugin": "8.45.0",
@@ -27,24 +28,43 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.js"
+    },
+    "./package.json": "./package.json"
   },
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "package.json",
+    "tsconfig.json"
+  ],
   "homepage": "https://github.com/OctaEDLP00/cli-builder-core#readme",
-  "keywords": ["cli", "builder", "installer", "typescript", "readline"],
+  "keywords": [
+    "cli",
+    "builder",
+    "installer",
+    "typescript",
+    "readline"
+  ],
   "main": "dist/index.js",
   "name": "@cli-builder/core",
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild"]
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/OctaEDLP00/cli-builder-core.git"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
     "dev": "tsx examples/basic-cli.ts",
     "example:advanced": "tsx examples/advanced-cli.ts",
     "example:basic": "tsx examples/basic-cli.ts",

@@ -1,13 +1,13 @@
-import {  CommanderError } from '~/errors'
+import { EventEmitter } from 'node:events'
+import { CommanderError } from '~/errors'
+import type { ActionFn, Opts } from '~/types'
 
-export type ActionFn = (...args: any[]) => any
-
-export class Command {
+export class Command extends EventEmitter {
   private $name = ''
   private $description = ''
   private $version = ''
   private argName: string | null = null
-  private options: Array<{ flags: string; description?: string; arg?: string }> = []
+  private options: Array<Opts> = []
   private actionFn: ActionFn | null = null
   private exitOverrideEnabled = false
 
@@ -58,7 +58,7 @@ export class Command {
     process.exit(exitCode)
   }
 
-  parse(argv?: string[]) {
+  parse(argv?: Array<string>) {
     const args = argv ? argv.slice() : process.argv.slice()
     // Normalize: if it's full node argv include node+script, remove first two
     if (args.length > 0 && args[0].endsWith('node')) {
@@ -102,7 +102,7 @@ export class Command {
         } else {
           const key = token.substring(2)
           // see if option expects a value
-          const optDef = this.options.find((o) => o.flags.includes(`--${key}`))
+          const optDef = this.options.find(o => o.flags.includes(`--${key}`))
           if (optDef && optDef.arg) {
             options[key] = real[i + 1]
             i++
@@ -115,13 +115,15 @@ export class Command {
         // support only single-letter options possibly with value like -t value
         if (letters.length === 1) {
           const letter = letters[0]
-          const optDef = this.options.find((o) => o.flags.includes(`-${letter}`))
+          const optDef = this.options.find(o => o.flags.includes(`-${letter}`))
           if (optDef && optDef.arg) {
             const long = (optDef.flags.match(/--([a-zA-Z0-9-]+)/) || [])[1]
             options[long || letter] = real[i + 1]
             i++
           } else {
-            const long = (this.options.find((o) => o.flags.includes(`-${letter}`))?.flags.match(/--([a-zA-Z0-9-]+)/) || [])[1]
+            const long = (this.options
+              .find(o => o.flags.includes(`-${letter}`))
+              ?.flags.match(/--([a-zA-Z0-9-]+)/) || [])[1]
             options[long || letter] = true
           }
         } else {
@@ -145,3 +147,4 @@ export class Command {
 }
 
 export default Command
+export const program = new Command()

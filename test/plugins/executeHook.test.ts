@@ -1,7 +1,15 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { PluginManager } from '../../src/plugins/plugin-manager.js'
 
 describe('PluginManager executeHook', () => {
+  beforeEach(() => {
+    // Silencia los warnings y errores esperados durante estos tests
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+    // Opcional: Silenciar también logs de éxito ("Plugin installed...")
+    vi.spyOn(console, 'log').mockImplementation(() => {})
+  })
+
   it('passes arguments to hooks when provided', async () => {
     const pm = new PluginManager()
     const hook = vi.fn()
@@ -14,8 +22,8 @@ describe('PluginManager executeHook', () => {
 
   it('awaits promise-returning hooks', async () => {
     const pm = new PluginManager()
-    const hook = vi.fn().mockImplementation(async (ctx) => {
-      return new Promise((res) => setTimeout(() => res(ctx), 10))
+    const hook = vi.fn().mockImplementation(async ctx => {
+      return new Promise(res => setTimeout(() => res(ctx), 10))
     })
     await pm.install({ name: 'p2', version: '1.0.0', hooks: { beforeGenerate: hook } })
 
@@ -40,8 +48,8 @@ describe('PluginManager executeHook', () => {
   it('awaits async onError handlers', async () => {
     const pm = new PluginManager()
     const hook = vi.fn().mockImplementation(() => Promise.reject(new Error('boom2')))
-    const onError = vi.fn().mockImplementation(async (err) => {
-      return new Promise((res) => setTimeout(() => res(err.message), 5))
+    const onError = vi.fn().mockImplementation(async err => {
+      return new Promise(res => setTimeout(() => res(err.message), 5))
     })
 
     await pm.install({ name: 'p4', version: '1.0.0', hooks: { beforeGenerate: hook, onError } })

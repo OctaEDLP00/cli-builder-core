@@ -1,7 +1,5 @@
 // Use local no-op color helpers to keep examples runnable when picocolors named
 // exports are not available in the runtime environment.
-const white = (s: string) => s
-const gray = (s: string) => s
 import { Command } from 'commander'
 import type {
   CLIConfig,
@@ -14,6 +12,7 @@ import { ProjectGenerator } from './project-generator.js'
 import { ReadlineManager } from './readline-manager.js'
 import { UIManager } from './ui-manager.js'
 import { ValidationManager } from './validation-manager.js'
+import picocolors from 'picocolors'
 
 /**
  * Main CLI Builder class for creating interactive command-line interfaces.
@@ -41,7 +40,6 @@ export class CLIBuilder {
 
   /**
    * Creates a new CLIBuilder instance.
-   *
    * @param config - The CLI configuration object
    */
   constructor(config: CLIConfig) {
@@ -78,7 +76,7 @@ export class CLIBuilder {
       // help exit to be treated as non-fatal (exit code 0). If the error
       // indicates help was displayed (exitCode 0), swallow it; otherwise rethrow.
       const exitCode = err && (err.exitCode ?? err.code)
-      if (exitCode === 0 || err && err.code === 'commander.helpDisplayed') {
+      if (exitCode === 0 || (err && err.code === 'commander.helpDisplayed')) {
         return
       }
       throw err
@@ -432,14 +430,14 @@ export class CLIBuilder {
    */
   private showNextSteps(answers: PromptResult): void {
     this.uiManager.showInfo('\nNext steps:')
-    console.log(white(`  cd ${answers.projectName}`))
+    console.log(picocolors.white(`  cd ${answers.projectName}`))
 
     if (!this.config.skipInstall) {
-      console.log(white('  npm install'))
+      console.log(picocolors.white('  npm install'))
     }
 
-    console.log(white('  npm run dev'))
-    console.log(gray('\nHappy coding! 🚀\n'))
+    console.log(picocolors.white('  npm run dev'))
+    console.log(picocolors.gray('\nHappy coding! 🚀\n'))
   }
 
   // ... parse method is implemented earlier (uses exitOverride for safer test behavior)
